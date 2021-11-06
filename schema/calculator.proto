@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package toy;
+option go_package = "schema/calculatorgrpc";
+
+service Calculator {
+    rpc Substract(Values) returns (SubstractValue);
+    rpc Add(Values) returns (AddValue);
+}
+
+message Values {
+    int32 x = 1;
+    int32 y = 2;
+}
+
+message SubstractValue {
+    int32 value = 1;
+}
+
+message AddValue {
+    int32 value = 1;
+}

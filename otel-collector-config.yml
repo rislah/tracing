@@ -1,0 +1,39 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:55690
+          
+  jaeger/withendpoint:
+    protocols:
+      thrift_http:
+        endpoint: 0.0.0.0:14260
+
+exporters:
+  jaeger:
+    endpoint: "jaeger:14250"
+    tls:
+      insecure: true
+
+processors:
+  tail_sampling:
+    decision_wait: 10s
+    num_traces: 100
+    expected_new_traces_per_sec: 10
+    policies:
+      [
+          {
+            name: test-policy-2,
+            type: latency,
+            latency: {threshold_ms: 100}
+          },
+      ]
+
+service:
+  extensions: []
+  pipelines:
+    traces:
+      receivers: [jaeger/withendpoint]
+      exporters: [jaeger]
+      processors: [tail_sampling]
+

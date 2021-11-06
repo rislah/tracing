@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package toy;
+option go_package = "schema/authenticatorgrpc";
+
+service Authenticator {
+    rpc AuthenticatePassword(AuthenticatePasswordReq) returns (AuthenticatePasswordResponse);
+}
+
+message AuthenticatePasswordReq {
+    string username = 1;
+    string password = 2;
+}
+
+message AuthenticatePasswordResponse {
+    string token = 1;
+}
